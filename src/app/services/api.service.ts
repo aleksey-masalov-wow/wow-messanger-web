@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { JwtService } from "./jwt.service";
 import { environment } from '../../environments/environment';
@@ -39,11 +39,11 @@ export class ApiService {
         });
     }
 
-    getMessages(): Observable<any> {
+    getMessages(): Observable<Array<any>> {
         let url = environment.api_url + 'messages/get';
 
-        return this.http.get<DefaultResponseData<any>>(url)
-            .map(function (result: DefaultResponseData<any>) {
+        return this.http.get<DefaultResponseData<Array<any>>>(url)
+            .map(function (result: any) {
                 return result.result ? result.data.messages : [];
             });
     }
@@ -53,6 +53,18 @@ export class ApiService {
         let body = {'channel': channel, 'message': message, 'sender_id': 1};
 
         return this.http.post<DefaultResponseData<boolean>>(url, body)
+            .map(function (result: DefaultResponseData<boolean>) {
+                return result.result;
+            });
+    }
+
+    removeMessage(id): Observable<boolean> {
+        let url = environment.api_url + 'messages/' + id + '/delete';
+        let contentHeaders = new HttpHeaders();
+
+        const options = { headers: contentHeaders };
+
+        return this.http.delete<DefaultResponseData<boolean>>(url, options)
             .map(function (result: DefaultResponseData<boolean>) {
                 return result.result;
             });

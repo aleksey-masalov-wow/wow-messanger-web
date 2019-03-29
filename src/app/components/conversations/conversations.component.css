@@ -38,3 +38,10 @@
     font-weight: 700;
     color: #007bff;
 }
+
+.header .remove-message{
+    opacity: 0;
+}
+.header:hover .remove-message{
+    opacity: 0.5;
+}

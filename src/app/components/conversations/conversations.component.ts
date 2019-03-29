@@ -11,20 +11,19 @@ import { environment } from "../../../environments/environment";
   styleUrls: ['./conversations.component.css']
 })
 export class ConversationsComponent implements OnInit {
+  public readonly CONVERSATION_CHANNEL_NAME_MAIN_CHAT = 'main-chat';
+  public readonly CONVERSATION_CHANNEL_NAME_MANAGER_CHAT = 'manager-chat';
+  public readonly CONVERSATION_CHANNEL_NAME_APPOINTMENT_CHAT = 'appointment-chat';
+  public readonly CONVERSATION_CHANNEL_NAME_EDUCATION_CHAT = 'education-chat';
+  public readonly CONVERSATION_CHANNEL_NAME_MEDICATION_CHAT = 'medication-chat';
+  public readonly CONVERSATION_EVENT_NAME = 'chat-updated';
 
   public currentUserId;
   public currentMessage;
   public messages = [];
   public errors = [];
-  public channelType;
+  public currentChannel;
   public channelMessages = [];
-
-  private readonly CONVERSATION_CHANNEL_NAME_MAIN_CHAT = 'main-chat';
-  private readonly CONVERSATION_CHANNEL_NAME_MANAGER_CHAT = 'manager-chat';
-  private readonly CONVERSATION_CHANNEL_NAME_APPOINTMENT_CHAT = 'appointment-chat';
-  private readonly CONVERSATION_CHANNEL_NAME_EDUCATION_CHAT = 'education-chat';
-  private readonly CONVERSATION_CHANNEL_NAME_MEDICATION_CHAT = 'medication-chat';
-  private readonly CONVERSATION_EVENT_NAME = 'chat-updated';
 
   constructor(private api: ApiService,
               private pusherService: PusherService,
@@ -87,8 +86,15 @@ export class ConversationsComponent implements OnInit {
   }
 
   public onSubmitMessage(){
-    this.sendMessage(this.channelType, this.currentMessage);
+    this.sendMessage(this.currentChannel, this.currentMessage);
     this.currentMessage = '';
+  }
+
+  public onRemoveMessage(event, id){
+    event.preventDefault();
+
+    this.removeMessage(id);
+    this.refreshMessages();
   }
 
   public onActivateChannel(channel){
@@ -96,7 +102,7 @@ export class ConversationsComponent implements OnInit {
   }
 
   public isActiveChannel(channel){
-    return this.channelType == channel;
+    return this.currentChannel == channel;
   }
 
   private refreshMessages(channel = null) {
@@ -112,7 +118,7 @@ export class ConversationsComponent implements OnInit {
   }
 
   private refreshChannel(channel) {
-    this.channelType = channel;
+    this.currentChannel = channel;
 
     if(this.messages.length){
       this.channelMessages = this.messages.filter((message) => {
@@ -127,5 +133,13 @@ export class ConversationsComponent implements OnInit {
       }, (e) => {
         console.log(e);
       });
+  }
+
+  removeMessage(id) {
+    this.api.removeMessage(id).subscribe(() => {
+      this.refreshMessages(this.currentChannel);
+    }, (e) => {
+      console.log(e);
+    });
   }
 }

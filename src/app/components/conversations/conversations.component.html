@@ -54,29 +54,31 @@
     </div>
 
     <div class="col-md-8 order-md-1 position-relative">
-        <p class="channel-empty" *ngIf="!channelType">Conversation channel no selected!</p>
+      <p class="channel-empty" *ngIf="!currentChannel">Conversation channel no selected!</p>
 
-        <div class="mb-3" *ngIf="channelType">
-          <ul class="chat">
-            <ng-container *ngFor="let channelMessage of channelMessages">
-              <li class="clearfix" [ngClass]="channelMessage.senderId == currentUserId ? 'right' : 'left'">
-                <div class="chat-body clearfix">
-                  <div class="header">
-                    <strong class="primary-font">{{ channelMessage.userName }}</strong>
+      <div class="mb-3" *ngIf="currentChannel">
+        <ul class="chat">
+          <ng-container *ngFor="let channelMessage of channelMessages">
+            <li class="clearfix" [ngClass]="channelMessage.senderId == currentUserId ? 'right' : 'left'">
+              <div class="chat-body clearfix">
+                <div class="header">
+                  <strong class="primary-font">{{ channelMessage.userName }}</strong>
 
-                    <small class="pull-right text-muted">
-                      <span class="glyphicon glyphicon-time"></span>{{ channelMessage.createdAt }}
-                    </small>
-                  </div>
+                  <small class="pull-right text-muted">
+                    <span class="glyphicon glyphicon-time"></span>{{ channelMessage.createdAt }}
+                  </small>
 
-                  <p>{{ channelMessage.message }}</p>
+                  <a href="#" class="badge badge-danger" (click)="onRemoveMessage($event, channelMessage.id)">Remove</a>
                 </div>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
 
-      <div *ngIf="channelType">
+                <p>{{ channelMessage.message }}</p>
+              </div>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div *ngIf="currentChannel">
 
         <h4 class="mb-3">Add message</h4>
 
