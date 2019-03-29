@@ -1,5 +1,5 @@
 {
-  "name": "wow-messanger-web",
+  "name": "wow-messenger-web",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -21,7 +21,13 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "angular2-jwt": "^0.2.3",
+    "bootstrap": "^4.0.0-beta",
     "core-js": "^2.4.1",
+    "jquery": "^3.2.1",
+    "ngx-logger": "^3.3.12",
+    "popper.js": "^1.12.5",
+    "pusher-js": "^4.4.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { StorageService } from './storage.service';
+import { JwtService } from './jwt.service';
 import { User } from "../models/user";
 import { NGXLogger } from "ngx-logger";
 
@@ -12,7 +13,8 @@ export class AuthService {
 
     constructor(
         private api: ApiService,
-        private storageService: StorageService) {
+        private storageService: StorageService,
+        private jwtService: JwtService) {
     }
 
     public getIdentity(): User {
@@ -53,6 +55,7 @@ export class AuthService {
     }
 
     public logout() {
+        this.jwtService.destroyToken();
         this.storageService.remove('identity');
         this.token = null;
         this.identity = null;
@@ -63,6 +66,7 @@ export class AuthService {
         let identity = null;
 
         try {
+            identity = this.jwtService.decodeToken();
         } catch (e) {}
 
         if (identity) {

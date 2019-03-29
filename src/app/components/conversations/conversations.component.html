@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Conversations</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Channels</span>
+        <span class="badge badge-secondary badge-pill">{{ messages.length }}</span>
+      </h4>
+
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-condensed" (click)="onActivateChannel(CONVERSATION_CHANNEL_NAME_MAIN_CHAT)">
+          <div [ngClass]="isActiveChannel(CONVERSATION_CHANNEL_NAME_MAIN_CHAT) ? 'active' : ''">
+            <h6 class="my-0">Main Chat</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">{{ mainChatChannelMessages.length }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between lh-condensed" (click)="onActivateChannel(CONVERSATION_CHANNEL_NAME_MANAGER_CHAT)">
+          <div [ngClass]="isActiveChannel(CONVERSATION_CHANNEL_NAME_MANAGER_CHAT) ? 'active' : ''">
+            <h6 class="my-0">Manager Chat</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">{{ managerChatChannelMessages.length }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between lh-condensed" (click)="onActivateChannel(CONVERSATION_CHANNEL_NAME_APPOINTMENT_CHAT)">
+          <div [ngClass]="isActiveChannel(CONVERSATION_CHANNEL_NAME_APPOINTMENT_CHAT) ? 'active' : ''">
+            <h6 class="my-0">Appointment Chat</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">{{ appointmentChatChannelMessages.length }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between lh-condensed" (click)="onActivateChannel(CONVERSATION_CHANNEL_NAME_EDUCATION_CHAT)">
+          <div [ngClass]="isActiveChannel(CONVERSATION_CHANNEL_NAME_EDUCATION_CHAT) ? 'active' : ''">
+            <h6 class="my-0">Education Chat</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">{{ educationChatChannelMessages.length }}</span>
+        </li>
+
+        <li class="list-group-item d-flex justify-content-between lh-condensed" (click)="onActivateChannel(CONVERSATION_CHANNEL_NAME_MEDICATION_CHAT)">
+          <div [ngClass]="isActiveChannel(CONVERSATION_CHANNEL_NAME_MEDICATION_CHAT) ? 'active' : ''">
+            <h6 class="my-0">Medication Chat</h6>
+            <small class="text-muted">Brief description</small>
+          </div>
+          <span class="text-muted">{{ medicationChatChannelMessages.length }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-8 order-md-1 position-relative">
+        <p class="channel-empty" *ngIf="!channelType">Conversation channel no selected!</p>
+
+        <div class="mb-3" *ngIf="channelType">
+          <ul class="chat">
+            <ng-container *ngFor="let channelMessage of channelMessages">
+              <li class="clearfix" [ngClass]="channelMessage.senderId == currentUserId ? 'right' : 'left'">
+                <div class="chat-body clearfix">
+                  <div class="header">
+                    <strong class="primary-font">{{ channelMessage.userName }}</strong>
+
+                    <small class="pull-right text-muted">
+                      <span class="glyphicon glyphicon-time"></span>{{ channelMessage.createdAt }}
+                    </small>
+                  </div>
+
+                  <p>{{ channelMessage.message }}</p>
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+
+      <div *ngIf="channelType">
+
+        <h4 class="mb-3">Add message</h4>
+
+        <hr class="mb-4">
+
+          <input type="text" class="form-control mb-3" placeholder="Message ..." [(ngModel)]="currentMessage">
+          <button class="btn btn-primary btn-lg btn-block" type="button" (click)="onSubmitMessage()">Send message</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2019</p>
+  </footer>
+</div>

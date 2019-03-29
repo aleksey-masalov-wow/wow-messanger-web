@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
+import { JwtService } from "./jwt.service";
 import { environment } from '../../environments/environment';
 
 interface DefaultResponseData<T> {
@@ -17,7 +18,7 @@ export class ApiService {
 
     private token: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private jwtService: JwtService) {
     }
 
     login(email, password): Observable<{ token?: string, message?: string }> {
@@ -30,6 +31,7 @@ export class ApiService {
         return result.map((res: DefaultResponseData<string>) => {
             if (res.result) {
                 this.token = res.data.replace(/^Bearer\s/, "");
+                this.jwtService.saveToken(this.token);
                 return {token: this.token, message: ""};
             } else {
                 return {token: null, message: res.message};

@@ -16,6 +16,4 @@ export class NavigationLayoutComponent implements OnInit {
   get userName(): string{
     return this.auth.hasIdentity() ? this.auth.getIdentity().name : '';
   }
-
-
 }
