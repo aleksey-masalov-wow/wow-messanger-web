@@ -16,6 +16,6 @@ export class GuestGuard implements CanActivate {
       this.router.navigate(['/conversations']);
     }
 
-    return hasIdentity;
+    return !hasIdentity;
   }
 }

@@ -11,7 +11,11 @@ import { ConversationsComponent } from "./components/conversations/conversations
 export const AppRoutes: Routes = [
     {
         path: '',
-        //canActivate: [GuestGuard],
+        redirectTo: 'conversations',
+        pathMatch: 'full'
+    },
+    {
+        path: '',
         component: AuthLayoutComponent,
         children: [
             { path: 'login', component: AuthLoginComponent, pathMatch: 'full' },
@@ -26,7 +30,10 @@ export const AppRoutes: Routes = [
             { path: 'conversations', component: ConversationsComponent, pathMatch: 'full'}
         ]
     },
-    { path: '**', redirectTo: 'conversations' }
+    {
+        path: '**',
+        redirectTo: 'conversations'
+    }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(AppRoutes);

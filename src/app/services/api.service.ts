@@ -48,9 +48,9 @@ export class ApiService {
             });
     }
 
-    sendMessage(channel, message): Observable<boolean> {
+    sendMessage(userId, channel, message): Observable<boolean> {
         let url = environment.api_url + 'messages/create';
-        let body = {'channel': channel, 'message': message, 'sender_id': 1};
+        let body = {'channel': channel, 'message': message, 'sender_id': userId};
 
         return this.http.post<DefaultResponseData<boolean>>(url, body)
             .map(function (result: DefaultResponseData<boolean>) {

@@ -14,19 +14,37 @@
 }
 
 .chat li.left .chat-body {
-    margin-left: 60px;
+    margin-right: 25%;
+    padding: 20px;
+    background-color: #efefef;
+    border-radius: 25px 25px 25px 5px;
 }
 
 .chat li.right .chat-body {
-    margin-right: 60px;
+    margin-left: 25%;
+    padding: 20px;
+    background-color: #efefef;
+    border-radius: 25px 25px 5px;
+    text-align: right;
 }
 
 .chat li .chat-body p {
     margin: 0;
-    color: #777777;
+    color: #777;
 }
 
-.channel-empty{
+.chat-body .badge-danger {
+    color: #777;
+    background-color: transparent;
+    border: none;
+}
+
+.chat-body .badge-danger:hover {
+    color: #fff;
+    background-color: red;
+}
+
+.channel-empty {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -34,14 +52,15 @@
 }
 
 .active h6,
-.active small{
+.active small {
     font-weight: 700;
     color: #007bff;
 }
 
-.header .remove-message{
+.header .remove-message {
     opacity: 0;
 }
-.header:hover .remove-message{
+
+.header:hover .remove-message {
     opacity: 0.5;
 }

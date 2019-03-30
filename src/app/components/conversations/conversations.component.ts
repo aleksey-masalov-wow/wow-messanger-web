@@ -86,15 +86,13 @@ export class ConversationsComponent implements OnInit {
   }
 
   public onSubmitMessage(){
-    this.sendMessage(this.currentChannel, this.currentMessage);
+    this.sendMessage(this.currentUserId, this.currentChannel, this.currentMessage);
     this.currentMessage = '';
   }
 
-  public onRemoveMessage(event, id){
-    event.preventDefault();
-
-    this.removeMessage(id);
-    this.refreshMessages();
+  public onRemoveMessage(message){
+    this.removeMessage(message.id);
+    this.refreshMessages(message.channel);
   }
 
   public onActivateChannel(channel){
@@ -105,10 +103,13 @@ export class ConversationsComponent implements OnInit {
     return this.currentChannel == channel;
   }
 
+  public isOwnMessage(senderId){
+    return this.currentUserId == senderId;
+  }
+
   private refreshMessages(channel = null) {
     this.api.getMessages().subscribe((messages) => {
       this.messages = messages;
-
       if(channel){
         this.refreshChannel(channel);
       }
@@ -120,15 +121,17 @@ export class ConversationsComponent implements OnInit {
   private refreshChannel(channel) {
     this.currentChannel = channel;
 
-    if(this.messages.length){
-      this.channelMessages = this.messages.filter((message) => {
-        return message.channel == channel;
-      });
+    if(!this.messages.length){
+      this.channelMessages = [];
     }
+
+    this.channelMessages = this.messages.filter((message) => {
+      return message.channel == channel;
+    });
   }
 
-  sendMessage(channel, message) {
-      this.api.sendMessage(channel, message).subscribe(() => {
+  sendMessage(userId, channel, message) {
+      this.api.sendMessage(userId, channel, message).subscribe(() => {
           this.refreshMessages(channel);
       }, (e) => {
         console.log(e);

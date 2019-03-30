@@ -59,7 +59,7 @@
       <div class="mb-3" *ngIf="currentChannel">
         <ul class="chat">
           <ng-container *ngFor="let channelMessage of channelMessages">
-            <li class="clearfix" [ngClass]="channelMessage.senderId == currentUserId ? 'right' : 'left'">
+            <li class="clearfix" [ngClass]="isOwnMessage(channelMessage.senderId) ? 'right' : 'left'">
               <div class="chat-body clearfix">
                 <div class="header">
                   <strong class="primary-font">{{ channelMessage.userName }}</strong>
@@ -67,11 +67,11 @@
                   <small class="pull-right text-muted">
                     <span class="glyphicon glyphicon-time"></span>{{ channelMessage.createdAt }}
                   </small>
-
-                  <a href="#" class="badge badge-danger" (click)="onRemoveMessage($event, channelMessage.id)">Remove</a>
                 </div>
 
                 <p>{{ channelMessage.message }}</p>
+
+                <button type="button" class="badge badge-danger" *ngIf="isOwnMessage(channelMessage.senderId)" (click)="onRemoveMessage(channelMessage)">Remove</button>
               </div>
             </li>
           </ng-container>
@@ -85,7 +85,7 @@
         <hr class="mb-4">
 
           <input type="text" class="form-control mb-3" placeholder="Message ..." [(ngModel)]="currentMessage">
-          <button class="btn btn-primary btn-lg btn-block" type="button" (click)="onSubmitMessage()">Send message</button>
+          <button class="btn btn-primary btn-lg btn-block" type="button" [disabled]="!currentMessage" (click)="onSubmitMessage()">Send message</button>
       </div>
     </div>
   </div>
