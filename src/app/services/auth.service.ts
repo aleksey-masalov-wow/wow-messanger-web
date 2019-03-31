@@ -37,6 +37,7 @@ export class AuthService {
                 this.identity = this.retrieveIdentity();
 
                 this.storageService.put('identity', this.identity);
+                this.storageService.put('session-start', Date.now());
 
                 if(this.hasIdentity()) {
                     resolve({success: this.identity.connected});

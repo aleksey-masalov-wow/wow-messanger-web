@@ -9,6 +9,7 @@ import { GuestGuard } from "./guards/guest.guard";
 import { ApiService } from "./services/api.service";
 import { AuthService } from "./services/auth.service";
 import { StorageService } from "./services/storage.service";
+import { AutoLogoutService } from "./services/auto-logout.service";
 import { AuthLayoutComponent } from './components/layout/auth-layout/auth-layout.component';
 import { FrontendLayoutComponent } from './components/layout/frontend-layout/frontend-layout.component';
 import { AuthLoginComponent } from './components/auth-login/auth-login.component';
@@ -16,9 +17,10 @@ import { AuthLogoutComponent } from './components/auth-logout/auth-logout.compon
 import { NavigationLayoutComponent } from './components/layout/navigation-layout/navigation-layout.component';
 import { ConversationsComponent } from './components/conversations/conversations.component';
 import { JwtHelper, provideAuth} from "angular2-jwt";
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtService } from "./services/jwt.service";
 import { PusherService } from "./services/pusher.service";
+import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -43,9 +45,15 @@ import { PusherService } from "./services/pusher.service";
     ApiService,
     AuthService,
     StorageService,
+    AutoLogoutService,
     JwtService,
     JwtHelper,
-    PusherService
+    PusherService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
