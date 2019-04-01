@@ -139,8 +139,10 @@ export class ConversationsComponent implements OnInit {
   }
 
   removeMessage(id) {
-    this.api.removeMessage(id).subscribe(() => {
-      this.refreshMessages(this.currentChannel);
+    this.api.removeMessage(id).subscribe((result) => {
+      if(result){
+        this.refreshMessages(this.currentChannel);
+      }
     }, (e) => {
       console.log(e);
     });
